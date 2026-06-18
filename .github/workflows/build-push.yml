@@ -62,16 +62,28 @@ jobs:
                   load: true
                   tags: ${{ env.SCAN_IMAGE }}
 
+            - name: Install Trivy
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y wget gnupg
+                  wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+                  echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee /etc/apt/sources.list.d/trivy.list
+                  sudo apt-get update
+                  sudo apt-get install -y trivy
+                  trivy --version
+
             - name: Run Trivy vulnerability scanner
-              uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8 # 0.33.1
-              with:
-                  image-ref: ${{ env.SCAN_IMAGE }}
-                  format: table
-                  exit-code: "1"
-                  severity: HIGH,CRITICAL
-                  ignore-unfixed: true
-                  vuln-type: os,library
-                  hide-progress: true
+              env:
+                  TRIVY_USERNAME: ${{ github.actor }}
+                  TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  trivy image \
+                    --exit-code 1 \
+                    --severity HIGH,CRITICAL \
+                    --ignore-unfixed \
+                    --pkg-types os,library \
+                    --no-progress \
+                    "${SCAN_IMAGE}"
 
             - name: Build and push Docker image
               id: build_push
