@@ -1,26 +1,17 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Pod
 metadata:
     name: deny-root-user
     namespace: demo
 spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: deny-root-user
-    template:
-        metadata:
-            labels:
-                app: deny-root-user
-        spec:
-            containers:
-                - name: app
-                  image: ghcr.io/namhoang4268/w10-api:0.0.2
-                  ports:
-                      - containerPort: 8080
-                  securityContext:
-                      runAsUser: 0
-                  resources:
-                      limits:
-                          cpu: 100m
-                          memory: 128Mi
+    containers:
+        - name: app
+          image: ghcr.io/namhoang4268/w10-api:0.0.2
+          ports:
+              - containerPort: 8080
+          securityContext:
+              runAsUser: 0
+          resources:
+              limits:
+                  cpu: 100m
+                  memory: 128Mi

@@ -1,5 +1,5 @@
 apiVersion: constraints.gatekeeper.sh/v1beta1
-kind: K8sBlockHostNetwork
+kind: K8sPSPHostNetworkingPorts
 metadata:
     name: disallow-host-network
     annotations:
@@ -17,9 +17,7 @@ spec:
         kinds:
             - apiGroups: [""]
               kinds: ["Pod"]
-            - apiGroups: ["apps"]
-              kinds: ["DaemonSet", "Deployment", "ReplicaSet", "StatefulSet"]
-            - apiGroups: ["batch"]
-              kinds: ["CronJob", "Job"]
-            - apiGroups: ["argoproj.io"]
-              kinds: ["Rollout"]
+    parameters:
+        hostNetwork: false
+        min: 0
+        max: 0
