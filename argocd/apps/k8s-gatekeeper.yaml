@@ -16,12 +16,7 @@ spec:
             values: |
                 postInstall:
                   labelNamespace:
-                    extraNamespaces:
-                      - argocd
-                      - argo-rollouts
-                      - external-secrets
-                      - kube-system
-                      - monitoring
+                    enabled: false
     destination:
         server: https://kubernetes.default.svc
         namespace: gatekeeper-system
