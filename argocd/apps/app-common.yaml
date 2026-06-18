@@ -9,8 +9,8 @@ metadata:
 spec:
     project: default
     source:
-        repoURL: https://github.com/NamHoang4268/namhoang-aws-accelerator-p2.git
-        path: cloud/w10/temp/app-common
+        repoURL: https://github.com/NamHoang4268/w10_temp_lab.git
+        path: app-common
         targetRevision: main
     destination:
         server: https://kubernetes.default.svc
