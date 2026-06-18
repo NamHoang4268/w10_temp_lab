@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: allow-valid
+    namespace: demo
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: allow-valid
+    template:
+        metadata:
+            labels:
+                app: allow-valid
+        spec:
+            securityContext:
+                runAsUser: 1000
+            containers:
+                - name: app
+                  image: ghcr.io/namhoang4268/w10-api:0.0.2
+                  ports:
+                      - containerPort: 8080
+                  resources:
+                      limits:
+                          cpu: 100m
+                          memory: 128Mi

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: deny-no-limits
+    namespace: demo
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: deny-no-limits
+    template:
+        metadata:
+            labels:
+                app: deny-no-limits
+        spec:
+            containers:
+                - name: app
+                  image: ghcr.io/namhoang4268/w10-api:0.0.2
+                  ports:
+                      - containerPort: 8080
