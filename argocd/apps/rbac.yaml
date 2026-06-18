@@ -1,0 +1,23 @@
+# ArgoCD App: Deploy RBAC manifests for lab users.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+    name: rbac
+    namespace: argocd
+    annotations:
+        argocd.argoproj.io/sync-wave: "2"
+spec:
+    project: default
+    source:
+        repoURL: https://github.com/NamHoang4268/w10_temp_lab.git
+        path: rbac
+        targetRevision: main
+    destination:
+        server: https://kubernetes.default.svc
+        namespace: demo
+    syncPolicy:
+        automated:
+            prune: true
+            selfHeal: true
+        syncOptions:
+            - ServerSideApply=true

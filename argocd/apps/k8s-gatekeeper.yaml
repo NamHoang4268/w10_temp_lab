@@ -1,0 +1,43 @@
+# ArgoCD App: Deploy Gatekeeper controller + CRDs.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+    name: gatekeeper
+    namespace: argocd
+    annotations:
+        argocd.argoproj.io/sync-wave: "1"
+spec:
+    project: default
+    source:
+        repoURL: https://open-policy-agent.github.io/gatekeeper/charts
+        chart: gatekeeper
+        targetRevision: 3.16.3
+        helm:
+            values: |
+                postInstall:
+                  labelNamespace:
+                    extraNamespaces:
+                      - argocd
+                      - argo-rollouts
+                      - external-secrets
+                      - kube-system
+                      - monitoring
+    destination:
+        server: https://kubernetes.default.svc
+        namespace: gatekeeper-system
+    syncPolicy:
+        automated:
+            prune: true
+            selfHeal: true
+        syncOptions:
+            - CreateNamespace=true
+            - ServerSideApply=true
+    ignoreDifferences:
+        - group: admissionregistration.k8s.io
+          kind: MutatingWebhookConfiguration
+          jqPathExpressions:
+              - ".webhooks[]?.clientConfig.caBundle"
+        - group: admissionregistration.k8s.io
+          kind: ValidatingWebhookConfiguration
+          jqPathExpressions:
+              - ".webhooks[]?.clientConfig.caBundle"

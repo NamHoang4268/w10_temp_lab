@@ -1,0 +1,23 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sAllowedRepos
+metadata:
+    name: allow-only-user-registry
+    annotations:
+        argocd.argoproj.io/sync-wave: "1"
+spec:
+    enforcementAction: deny
+    match:
+        namespaces:
+            - demo
+        kinds:
+            - apiGroups: [""]
+              kinds: ["Pod"]
+            - apiGroups: ["apps"]
+              kinds: ["DaemonSet", "Deployment", "ReplicaSet", "StatefulSet"]
+            - apiGroups: ["batch"]
+              kinds: ["CronJob", "Job"]
+            - apiGroups: ["argoproj.io"]
+              kinds: ["Rollout"]
+    parameters:
+        repos:
+            - ghcr.io/namhoang4268/

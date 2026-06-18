@@ -1,0 +1,97 @@
+# Namespace-scoped developer access for alice in demo.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+    name: demo-developer
+    namespace: demo
+rules:
+    - apiGroups: [""]
+      resources:
+          - pods
+          - pods/log
+          - services
+      verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+    - apiGroups: ["apps"]
+      resources:
+          - deployments
+          - replicasets
+          - statefulsets
+          - daemonsets
+      verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+    - apiGroups: ["argoproj.io"]
+      resources:
+          - rollouts
+      verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+---
+# Cluster-scoped pod read access for bob.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+    name: cluster-pod-reader
+rules:
+    - apiGroups: [""]
+      resources:
+          - pods
+          - pods/log
+      verbs:
+          - get
+          - list
+          - watch
+---
+# Cluster-wide read-only access for carol.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+    name: cluster-viewer
+rules:
+    - apiGroups: [""]
+      resources: ["*"]
+      verbs:
+          - get
+          - list
+          - watch
+    - apiGroups: ["apps"]
+      resources: ["*"]
+      verbs:
+          - get
+          - list
+          - watch
+    - apiGroups: ["batch"]
+      resources: ["*"]
+      verbs:
+          - get
+          - list
+          - watch
+    - apiGroups: ["networking.k8s.io"]
+      resources: ["*"]
+      verbs:
+          - get
+          - list
+          - watch
+    - apiGroups: ["argoproj.io"]
+      resources: ["*"]
+      verbs:
+          - get
+          - list
+          - watch
