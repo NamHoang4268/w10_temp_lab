@@ -13,3 +13,7 @@ spec:
                   MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEODZPAn95flkb1c25s8Jl4gWMgorm
                   zh9H3MtbyUP2TPKkOqMflUo3FXCcVHyDIR1jo+jr5501iFNh13yBCIPigw==
                   -----END PUBLIC KEY-----
+          source:
+              - oci: "ghcr.io/namhoang4268/w10-api"
+                signaturePullSecrets:
+                    - name: ghcr-pull-secret

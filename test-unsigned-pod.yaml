@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: unsigned-test
+  namespace: demo
+spec:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+  containers:
+    - name: unsigned-test
+      image: ghcr.io/namhoang4268/w10-api:0.0.2
+      resources:
+        limits:
+          cpu: "100m"
+          memory: "128Mi"
