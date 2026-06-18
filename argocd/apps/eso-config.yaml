@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+    name: eso-config
+    namespace: argocd
+    annotations:
+        argocd.argoproj.io/sync-wave: "1"
+spec:
+    project: default
+    source:
+        repoURL: https://github.com/NamHoang4268/w10_temp_lab.git
+        path: eso
+        targetRevision: main
+    destination:
+        server: https://kubernetes.default.svc
+        namespace: demo
+    syncPolicy:
+        automated:
+            prune: true
+            selfHeal: true
+        syncOptions:
+            - ServerSideApply=true
+            - SkipDryRunOnMissingResource=true

@@ -9,6 +9,9 @@ on:
             - "app-common/**"
             - "rbac/**"
             - "gatekeeper/**"
+            - "eso/**"
+            - "policies/**"
+            - "signing/**"
             - "tests/**"
             - "argocd/**"
 
@@ -29,4 +32,4 @@ jobs:
             - name: Validate manifests
               run: |
                   kubeconform -strict -summary -ignore-missing-schemas \
-                    app-api/ app-analysis/ app-alert/ app-common/ rbac/ gatekeeper/ tests/ argocd/
+                    app-api/ app-analysis/ app-alert/ app-common/ rbac/ gatekeeper/ eso/ policies/ tests/ argocd/

@@ -26,6 +26,10 @@ spec:
                 - name: api
                   image: ghcr.io/namhoang4268/w10-api:0.0.2
                   imagePullPolicy: IfNotPresent
+                  volumeMounts:
+                      - name: db-secret
+                        mountPath: /var/run/secrets/db
+                        readOnly: true
                   ports:
                       - containerPort: 8080
                         protocol: TCP
@@ -34,6 +38,8 @@ spec:
                         value: "v0.0.2"
                       - name: ERROR_RATE
                         value: "0"
+                      - name: DB_PASSWORD_FILE
+                        value: /var/run/secrets/db/password
                   livenessProbe:
                       httpGet:
                           path: /healthz
@@ -48,6 +54,10 @@ spec:
                       limits:
                           cpu: 200m
                           memory: 128Mi
+            volumes:
+                - name: db-secret
+                  secret:
+                      secretName: db-secret
     strategy:
         canary:
             analysis:

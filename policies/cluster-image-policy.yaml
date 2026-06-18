@@ -1,0 +1,15 @@
+apiVersion: policy.sigstore.dev/v1alpha1
+kind: ClusterImagePolicy
+metadata:
+    name: require-signed-w10-api
+spec:
+    images:
+        - glob: ghcr.io/namhoang4268/w10-api**
+    authorities:
+        - name: namhoang-cosign-key
+          key:
+              data: |
+                  -----BEGIN PUBLIC KEY-----
+                  MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEODZPAn95flkb1c25s8Jl4gWMgorm
+                  zh9H3MtbyUP2TPKkOqMflUo3FXCcVHyDIR1jo+jr5501iFNh13yBCIPigw==
+                  -----END PUBLIC KEY-----
