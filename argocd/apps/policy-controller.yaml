@@ -33,3 +33,21 @@ spec:
           kind: CustomResourceDefinition
           jsonPointers:
               - /spec/preserveUnknownFields
+        - group: admissionregistration.k8s.io
+          kind: ValidatingWebhookConfiguration
+          name: policy.sigstore.dev
+          jqPathExpressions:
+              - .webhooks[].clientConfig.caBundle
+              - .webhooks[].rules
+              - .webhooks[].namespaceSelector
+              - .webhooks[].objectSelector
+              - .webhooks[].failurePolicy
+        - group: admissionregistration.k8s.io
+          kind: MutatingWebhookConfiguration
+          name: policy.sigstore.dev
+          jqPathExpressions:
+              - .webhooks[].clientConfig.caBundle
+              - .webhooks[].rules
+              - .webhooks[].namespaceSelector
+              - .webhooks[].objectSelector
+              - .webhooks[].failurePolicy
